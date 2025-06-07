@@ -22,6 +22,7 @@ model User {
   sessions       Session[]
   categories     Category[]      // 👈 Added
   subcategories  Subcategory[]
+  categorySuggestions CategorySuggestion[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
