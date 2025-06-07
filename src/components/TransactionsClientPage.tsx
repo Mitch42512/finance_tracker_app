@@ -58,7 +58,11 @@ export default function TransactionsClientPage() {
             <tbody>
               {transactions.map((txn) => (
                 <tr key={txn.id}>
-                  <td>{txn.date}</td>
+                  <td>{new Date(txn.date).toLocaleDateString("en-AU", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric"
+                    })}</td>
                   <td>{txn.account}</td>
                   <td>{txn.type}</td>
                   <td>{txn.category}</td>

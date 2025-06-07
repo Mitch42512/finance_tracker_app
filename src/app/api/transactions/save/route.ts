@@ -94,7 +94,11 @@ export async function POST(req: NextRequest) {
 
     await prisma.transaction.create({
       data: {
-        date: new Date(row.date),
+        date: new Date(row.date).toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        }),
         account: row.account,
         type: row.type,
         category: category || null,
