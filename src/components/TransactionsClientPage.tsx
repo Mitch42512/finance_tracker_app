@@ -33,6 +33,26 @@ export default function TransactionsClientPage() {
     fetchTransactions();
   }, []);
 
+  const handleDelete = async (id: string) => {
+    const confirm = window.confirm("Are you sure you want to delete this transaction?");
+    if (!confirm) return;
+  
+    try {
+      const res = await fetch(`/api/transactions/${id}`, {
+        method: "DELETE",
+      });
+  
+      if (res.ok) {
+        setTransactions((prev) => prev.filter((t) => t.id !== id));
+      } else {
+        console.error("Failed to delete transaction.");
+      }
+    } catch (err) {
+      console.error("Error deleting transaction:", err);
+    }
+  };
+  
+
   if (loading) return <div className="p-8">Loading transactions...</div>;
 
   return (
@@ -52,7 +72,8 @@ export default function TransactionsClientPage() {
                 <th>Category</th>
                 <th>Subcategory</th>
                 <th>Amount</th>
-                <th>Notes</th>
+                <th className="text-right"> </th>
+                <th className="text-right"> </th>
               </tr>
             </thead>
             <tbody>
@@ -68,7 +89,23 @@ export default function TransactionsClientPage() {
                   <td>{txn.category}</td>
                   <td>{txn.subcategory}</td>
                   <td>${txn.amount.toFixed(2)}</td>
-                  <td>{txn.notes}</td>
+                  <td className="text-right">
+                    <button
+                      className="text-blue-500 hover:underline"
+                      title={txn.notes || "No notes"}
+                    >
+                      ℹ️
+                    </button>
+                  </td>
+                  <td className="text-right">
+                    <button
+                      onClick={() => handleDelete(txn.id)}
+                      className="text-red-500 hover:underline"
+                      title="Delete transaction"
+                    >
+                      🗑️
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
