@@ -8,38 +8,38 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(cuid())
-  name           String?
-  email          String   @unique
-  emailVerified  DateTime?
-  image          String?
-  uuid           String   @default(uuid())
-  accessToken    String?  @map("access_token")
-  refreshToken   String?  @map("refresh_token")
-  uploads        Upload[]
-  transactions   Transaction[]
-  accounts       Account[]
-  sessions       Session[]
-  categories     Category[]      // 👈 Added
-  subcategories  Subcategory[]
+  id                  String               @id @default(cuid())
+  name                String?
+  email               String               @unique
+  emailVerified       DateTime?
+  image               String?
+  uuid                String               @default(uuid())
+  accessToken         String?              @map("access_token")
+  refreshToken        String?              @map("refresh_token")
+  uploads             Upload[]
+  transactions        Transaction[]
+  accounts            Account[]
+  sessions            Session[]
+  categories          Category[] // 👈 Added
+  subcategories       Subcategory[]
   categorySuggestions CategorySuggestion[]
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String? 
-  access_token       String? 
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id])
 
@@ -64,68 +64,65 @@ model VerificationToken {
 }
 
 model Transaction {
-  id                String   @id @default(cuid())
-  userId            String
-  uploadId          String?
-  date              DateTime
-  type              String   // "Expense" or "Income"
-  account           String
-  category          String?
-  subcategory       String?
-  notes             String?
-  amount            Float
-  uniqueId          String   @unique
+  id                  String   @id @default(cuid())
+  userId              String
+  uploadId            String?
+  date                DateTime
+  type                String // "Expense" or "Income"
+  account             String
+  category            String?
+  subcategory         String?
+  notes               String?
+  amount              Float
+  uniqueId            String   @unique
   linkedTransactionId String?
 
-  user              User     @relation(fields: [userId], references: [id])
-  upload            Upload?  @relation(fields: [uploadId], references: [id])
+  user   User    @relation(fields: [userId], references: [id])
+  upload Upload? @relation(fields: [uploadId], references: [id])
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Upload {
-  id         String     @id @default(cuid())
+  id         String   @id @default(cuid())
   userId     String
   fileName   String
-  uploadedAt DateTime   @default(now())
+  uploadedAt DateTime @default(now())
   newRows    Int
 
-  user       User       @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
   transactions Transaction[]
 
-  createdAt  DateTime   @default(now())
+  createdAt DateTime @default(now())
 }
 
 model Category {
-  id        String        @id @default(cuid())
-  userId    String
-  name      String
-  user      User          @relation(fields: [userId], references: [id])
+  id            String        @id @default(cuid())
+  userId        String
+  name          String
+  user          User          @relation(fields: [userId], references: [id])
   subcategories Subcategory[]
 
   @@unique([userId, name])
 }
 
 model Subcategory {
-  id         String   @id @default(cuid())
+  id         String @id @default(cuid())
   userId     String
   name       String
   categoryId String
 
-  user       User     @relation(fields: [userId], references: [id])
-  category   Category @relation(fields: [categoryId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
 
   @@unique([userId, name])
 }
 
 model CategorySuggestion {
-  id     String   @id @default(cuid())
+  id     String @id @default(cuid())
   name   String
   type   String // "category" or "subcategory"
-  user   User    @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String
 }
-
-
-
