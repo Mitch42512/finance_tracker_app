@@ -1,4 +1,3 @@
-// src/app/dashboard/layout.tsx
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -14,7 +13,8 @@ export default async function DashboardLayout({
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/api/auth/signin?callbackUrl=/dashboard");
+    // If the user is not authenticated, redirect to the login page
+    redirect("/login?callbackUrl=/");
   }
 
   return (
@@ -25,10 +25,10 @@ export default async function DashboardLayout({
           Finance Tracker
         </div>
         <nav className="flex flex-col p-4 space-y-2">
-          <Link href="/dashboard" className="hover:text-gray-300">🏠 Home</Link>
-          <Link href="/dashboard/transactions" className="hover:text-gray-300">📊 Transactions</Link>
-          <Link href="/dashboard/upload" className="hover:text-gray-300">📁 Upload CSV</Link>
-          <Link href="/dashboard/settings" className="hover:text-gray-300">⚙️ Settings</Link>
+          <Link href="/" className="hover:text-gray-300">🏠 Home</Link>
+          <Link href="/transactions" className="hover:text-gray-300">📊 Transactions</Link>
+          <Link href="/upload" className="hover:text-gray-300">📁 Upload CSV</Link>
+          <Link href="/settings" className="hover:text-gray-300">⚙️ Settings</Link>
         </nav>
       </aside>
 
