@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
       newRows: true,
     },
   });
+  
 
   return NextResponse.json({ uploads });
 }

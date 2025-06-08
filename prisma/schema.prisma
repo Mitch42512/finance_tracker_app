@@ -8,23 +8,23 @@ datasource db {
 }
 
 model User {
-  id                 String               @id @default(cuid())
-  name               String?
-  email              String               @unique
-  emailVerified      DateTime?
-  image              String?
-  uuid               String               @default(uuid())
-  accessToken        String?              @map("access_token")
-  refreshToken       String?              @map("refresh_token")
-  uploads            Upload[]
-  transactions       Transaction[]
-  accounts           Account[]
-  sessions           Session[]
-  categories         Category[] // 👈 Added
-  subcategories      Subcategory[]
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  CategorySuggestion CategorySuggestion[]
+  id                  String               @id @default(cuid())
+  name                String?
+  email               String               @unique
+  emailVerified       DateTime?
+  image               String?
+  uuid                String               @default(uuid())
+  accessToken         String?              @map("access_token")
+  refreshToken        String?              @map("refresh_token")
+  uploads             Upload[]
+  transactions        Transaction[]
+  accounts            Account[]
+  sessions            Session[]
+  categories          Category[] // 👈 Added
+  subcategories       Subcategory[]
+  categorySuggestions CategorySuggestion[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
 }
 
 model Account {
